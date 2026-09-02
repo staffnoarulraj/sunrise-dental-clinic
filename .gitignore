@@ -1,0 +1,24 @@
+# Compiled Java class files
+out/
+*.class
+
+# IDE / editor directories
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+
+# macOS metadata
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V3
+.Trashes
+
+# Logs
+*.log
+
+# Sensitive data (never commit real credentials)
+# data/users.txt is intentionally included (contains hashed passwords only)
+# data/appointments.txt is intentionally included (patient records)
