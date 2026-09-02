@@ -1,0 +1,48 @@
+name: Java CI/CD Pipeline - Sunrise Dental Clinic
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    name: Build, Test & Verify
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 21 (Temurin)
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+
+    - name: Compile Java Source Files
+      run: |
+        echo "=== [1/3] Compiling Java Application Sources ==="
+        mkdir -p out
+        javac -d out src/*.java
+        echo "Compilation completed with 0 errors."
+
+    - name: Run Automated Test Suite (TDD Verification)
+      run: |
+        echo "=== [2/3] Executing Automated Test Suite ==="
+        java -cp out TestRunner
+
+    - name: Package Executable JAR
+      run: |
+        echo "=== [3/3] Packaging Application Artifact ==="
+        jar cfe SunriseDentalClinic.jar Main -C out .
+        echo "Generated standalone artifact: SunriseDentalClinic.jar"
+
+    - name: Upload Build Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: sunrise-dental-clinic-jar
+        path: SunriseDentalClinic.jar
+        retention-days: 14
